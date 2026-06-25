@@ -1,0 +1,21 @@
+services:
+  bibip-app-test-helper:
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    image: bibip-app-test:local
+    ulimits:
+      nofile:
+        soft: 10000
+        hard: 100000
+      nproc: 1024
+
+    container_name: bibip-app-test-container
+
+    network_mode: "bridge"
+
+    volumes:
+      - ${DATA_DIR:-./data}:/data
+      - ${SOURCE_CODE_DIR:-./src}:/bibip/src
+      - ${TESTS_CODE_DIR:-./tests}:/bibip/tests
+    restart: unless-stopped
